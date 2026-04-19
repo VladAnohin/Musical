@@ -30,6 +30,10 @@ const toggleLike = (id: number) => {
     track.isLiked = !track.isLiked;
   }
 };
+const deleteTrack = (id: number) => {
+  tracks.value = tracks.value.filter((t) => t.id !== id);
+  console.log(`Deleted track ${id}`);
+};
 </script>
 <template>
   <div>
@@ -39,6 +43,7 @@ const toggleLike = (id: number) => {
         <button @click="toggleLike(track.id)">
           {{ track.isLiked ? "❤️" : "🤍" }}
         </button>
+        <button @click="deleteTrack(track.id)">Delete</button>
       </li>
     </ol>
   </div>
