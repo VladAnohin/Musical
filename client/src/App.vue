@@ -34,9 +34,24 @@ const deleteTrack = (id: number) => {
   tracks.value = tracks.value.filter((t) => t.id !== id);
   console.log(`Deleted track ${id}`);
 };
+const newTrack = ref("");
+const addTrack = () => {
+  if (newTrack.value.trim() === "") {
+    return;
+  }
+  const addedTrack = {
+    id: Date.now(),
+    title: newTrack.value,
+    isLiked: false,
+  };
+  tracks.value.push(addedTrack);
+  newTrack.value = "";
+};
 </script>
 <template>
   <div>
+    <input type="text" v-model="newTrack" />
+    <button @click="addTrack">Add track</button>
     <ol>
       <li v-for="track in tracks" :key="track.id">
         {{ track.title }}
