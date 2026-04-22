@@ -6,24 +6,11 @@ interface Track {
   title: string;
   isLiked: boolean;
 }
-
-const tracks = ref<Track[]>([
-  {
-    id: 1,
-    title: "Black Is The Soul",
-    isLiked: true,
-  },
-  {
-    id: 2,
-    title: "Psychosocial",
-    isLiked: false,
-  },
-  {
-    id: 3,
-    title: "Angel Of Death",
-    isLiked: true,
-  },
-]);
+const currentTrackId = ref<number | null>(null);
+const selectTrack = (id: number) => {
+  currentTrackId.value = id;
+};
+const tracks = ref<Track[]>([]);
 const toggleLike = (id: number) => {
   const track = tracks.value.find((t) => t.id === id);
   if (track) {
@@ -53,7 +40,12 @@ const addTrack = () => {
     <input type="text" v-model="newTrack" />
     <button @click="addTrack">Add track</button>
     <ol>
-      <li v-for="track in tracks" :key="track.id">
+      <li
+        v-for="track in tracks"
+        :key="track.id"
+        @click="selectTrack(track.id)"
+        :class="{ 'active-style': currentTrackId === track.id }"
+      >
         {{ track.title }}
         <button @click="toggleLike(track.id)">
           {{ track.isLiked ? "❤️" : "🤍" }}
@@ -64,4 +56,15 @@ const addTrack = () => {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.active-style {
+  font-size: bold;
+  background: radial-gradient(rgb(219, 155, 71), rgb(46, 184, 58));
+  border: solid black 1px;
+}
+li {
+  width: 15rem;
+  border-radius: 2rem;
+  padding: 0.5%;
+}
+</style>
