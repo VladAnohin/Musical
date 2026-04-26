@@ -49,6 +49,7 @@ const deleteTrack = (id: number) => {
     <button @click="addTrack">Add track</button>
     <button @click="favouriteTracks = 'all'">All tracks</button>
     <button @click="favouriteTracks = 'liked'">Favourite</button>
+    <h1>{{ favouriteTracks === "all" ? "All tracks" : "Favourite" }}</h1>
     <ol>
       <li
         v-for="track in likedTracks"
