@@ -1,26 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 interface Track {
   id: number;
   title: string;
   isLiked: boolean;
 }
-const currentTrackId = ref<number | null>(null);
-const selectTrack = (id: number) => {
-  currentTrackId.value = id;
-};
 const tracks = ref<Track[]>([]);
-const toggleLike = (id: number) => {
-  const track = tracks.value.find((t) => t.id === id);
-  if (track) {
-    track.isLiked = !track.isLiked;
-  }
-};
-const deleteTrack = (id: number) => {
-  tracks.value = tracks.value.filter((t) => t.id !== id);
-  console.log(`Deleted track ${id}`);
-};
 const newTrack = ref("");
 const addTrack = () => {
   if (newTrack.value.trim() === "") {
@@ -34,14 +20,38 @@ const addTrack = () => {
   tracks.value.push(addedTrack);
   newTrack.value = "";
 };
+const favouriteTracks = ref<"all" | "liked">("all");
+const likedTracks = computed(() => {
+  if (favouriteTracks.value === "liked") {
+    return tracks.value.filter((track) => track.isLiked);
+  } else {
+    return tracks.value;
+  }
+});
+const currentTrackId = ref<number | null>(null);
+const selectTrack = (id: number) => {
+  currentTrackId.value = id;
+};
+const toggleLike = (id: number) => {
+  const track = tracks.value.find((t) => t.id === id);
+  if (track) {
+    track.isLiked = !track.isLiked;
+  }
+};
+const deleteTrack = (id: number) => {
+  tracks.value = tracks.value.filter((t) => t.id !== id);
+  console.log(`Deleted track ${id}`);
+};
 </script>
 <template>
   <div>
     <input type="text" v-model="newTrack" />
     <button @click="addTrack">Add track</button>
+    <button @click="favouriteTracks = 'all'">All tracks</button>
+    <button @click="favouriteTracks = 'liked'">Favourite</button>
     <ol>
       <li
-        v-for="track in tracks"
+        v-for="track in likedTracks"
         :key="track.id"
         @click="selectTrack(track.id)"
         :class="{ 'active-style': currentTrackId === track.id }"
