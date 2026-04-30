@@ -45,7 +45,11 @@ const deleteTrack = (id: number) => {
 </script>
 <template>
   <div>
-    <input type="text" v-model="newTrack" class="m-2" />
+    <input
+      type="text"
+      v-model="newTrack"
+      class="m-2 border border-green-400 rounded-2xl"
+    />
     <button @click="addTrack">Add track</button>
     <button @click="favouriteTracks = 'all'">All tracks</button>
     <button @click="favouriteTracks = 'liked'">Favourite</button>
