@@ -5,6 +5,8 @@ interface Track {
   id: number;
   title: string;
   isLiked: boolean;
+  artist: string;
+  genre: string;
 }
 const tracks = ref<Track[]>([]);
 const newTrack = ref("");
@@ -42,6 +44,8 @@ const deleteTrack = (id: number) => {
   tracks.value = tracks.value.filter((t) => t.id !== id);
   console.log(`Deleted track ${id}`);
 };
+const genres = ref(["Rap", "Rock", "Electronic", "EDM", "Jazz"]);
+const selectedGenre = ref("");
 </script>
 <template>
   <div>
@@ -50,9 +54,28 @@ const deleteTrack = (id: number) => {
       v-model="newTrack"
       class="m-2 border border-green-400 rounded-2xl"
     />
-    <button @click="addTrack">Add track</button>
-    <button @click="favouriteTracks = 'all'">All tracks</button>
-    <button @click="favouriteTracks = 'liked'">Favourite</button>
+    <select name="" id="" v-model="selectedGenre">
+      <option value="" disabled>Выберите жанр</option>
+      <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
+    </select>
+    <button
+      @click="addTrack"
+      class="px-2 py-1 bg-blue-500 text-white rounded-3xl transition-all duration-100 active:scale-95"
+    >
+      Add track
+    </button>
+    <button
+      @click="favouriteTracks = 'all'"
+      class="px-2 py-1 bg-blue-500 text-white rounded-3xl transition-all duration-100 active:scale-95"
+    >
+      All tracks
+    </button>
+    <button
+      @click="favouriteTracks = 'liked'"
+      class="px-2 py-1 bg-blue-500 text-white rounded-3xl transition-all duration-100 active:scale-95"
+    >
+      Favourite
+    </button>
     <h1>{{ favouriteTracks === "all" ? "All tracks" : "Favourite" }}</h1>
     <ol>
       <li
@@ -81,5 +104,9 @@ li {
   width: 15rem;
   border-radius: 2rem;
   padding: 0.5%;
+}
+button {
+  border: 1px solid black;
+  margin: 0.2vw;
 }
 </style>
