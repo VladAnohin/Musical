@@ -54,9 +54,11 @@ const selectedGenre = ref("");
       v-model="newTrack"
       class="m-2 border border-green-400 rounded-2xl"
     />
-    <select name="" id="" v-model="selectedGenre">
+    <select v-model="selectedGenre" class="bg-lime-200 px-2 py-1 rounded-xl">
       <option value="" disabled>Выберите жанр</option>
-      <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
+      <option v-for="g in genres" :key="g" :value="g">
+        {{ g }}
+      </option>
     </select>
     <button
       @click="addTrack"
@@ -77,18 +79,21 @@ const selectedGenre = ref("");
       Favourite
     </button>
     <h1>{{ favouriteTracks === "all" ? "All tracks" : "Favourite" }}</h1>
-    <ol>
+    <ol class="flex justify-center flex-wrap w-150">
       <li
         v-for="track in likedTracks"
         :key="track.id"
         @click="selectTrack(track.id)"
         :class="{ 'active-style': currentTrackId === track.id }"
+        class="w-full rounded flex justify-between break-all"
       >
         {{ track.title }}
-        <button @click="toggleLike(track.id)">
-          {{ track.isLiked ? "❤️" : "🤍" }}
-        </button>
-        <button @click="deleteTrack(track.id)">Delete</button>
+        <div>
+          <button @click="toggleLike(track.id)">
+            {{ track.isLiked ? "❤️" : "🤍" }}
+          </button>
+          <button @click="deleteTrack(track.id)">Delete</button>
+        </div>
       </li>
     </ol>
   </div>
@@ -100,11 +105,7 @@ const selectedGenre = ref("");
   background: radial-gradient(rgb(219, 155, 71), rgb(46, 184, 58));
   border: solid black 1px;
 }
-li {
-  width: 15rem;
-  border-radius: 2rem;
-  padding: 0.5%;
-}
+
 button {
   border: 1px solid black;
   margin: 0.2vw;
